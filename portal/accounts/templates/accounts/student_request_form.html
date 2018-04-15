@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container">
+    <h1>Student Request Form</h1>
+
+    {% if counter == 1 %}
+    <div class="alert alert-warning">
+       <strong>Warning!</strong> Try again either 6:00 to 9:00 or 17:00 to 22:00
+    </div>
+    {% endif %}
+
+    {% if counterx == 1 %}
+    <div class="alert alert-success">
+       <strong>Request Successfully Made!</strong>
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% if mode == '0' %}
+              {% if viewmodeonly != 1 %}
+                    <input type="submit" value="Submit" class="btn btn-default">
+              {% else %}
+                    {% if pending == False %}
+                          <button type="button" class="btn btn-warning">Pending</button>
+                    {% else %}
+                          {% if approved_comment == True %}
+                              <button type="button" class="btn btn-success">approved</button>
+                          {% else %}
+                              <button type="button" class="btn btn-danger">disapproved</button>
+                          {% endif %}
+                    {% endif %}
+              {% endif %}
+        {% else %}
+
+
+                           <a href="{%url 'accounts:trackrequest' id %} " style="color:red">
+                           <button type="button" class="btn btn-success">approve</button></a>
+
+                          <a href="{%url 'accounts:disapproverequest' id %} " style="color:red">
+                          <button type="button" class="btn btn-danger">disapprove</button></a>
+
+
+        {% endif %}
+    </form>
+
+
+</div>
+{% endblock %}

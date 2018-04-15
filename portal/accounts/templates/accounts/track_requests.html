@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+<div class="container">
+
+
+<h2>All requests</h2>
+
+<table>
+  <tr>
+    <th>Webmail</th>
+    <th>Field name</th>
+    <th>approve status</th>
+    <th>View Details<th>
+  </tr>
+
+{% for request in requests_list %}
+
+    <tr>
+      <td>{{ request.username }}</td>
+      <td>{{ request.Field_name }}</td>
+      {% if request.pending == False  %}
+            <td> <button type="button" class="btn btn-warning">Pending</button></td>
+      {% else %}
+            {% if request.approved_comment == True %}
+                <td><button type="button" class="btn btn-success">approved</button></td>
+            {% else %}
+                <td><button type="button" class="btn btn-danger">disapproved</button></td>
+            {% endif %}
+      {% endif %}
+
+    
+      <td><a href="{%url 'accounts:ViewRequestInfo' request.id %} ">
+          <button type="button" class="btn btn-default">VIEW</button></a></td>
+    </tr>
+{% endfor %}
+
+</table>
+
+
+</div>
+{% endblock %}
